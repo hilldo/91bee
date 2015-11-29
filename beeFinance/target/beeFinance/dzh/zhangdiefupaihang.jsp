@@ -154,9 +154,9 @@ $(function(){
 			tr.find(".ZhongWenJianCheng").html(d.ZhongWenJianCheng).bind("click",function(){
 				window.location.href = rootPath+"/dzh/gghq_ggsy.jsp?stockCode=" + d.Obj;
 			}).end()
-			.find(".ZuiXinJia").html(d.ZuiXinJia).addClass(d.ZhangFu>0?"red":"green").end()
-			.find(".ZhangFu").html(d.ZhangFu+"%").addClass(d.ZhangFu>0?"red":"green").end()
-			.find(".ZhenFu").html(d.ZhenFu+"%").addClass(d.ZhangFu>0?"red":"green").end();
+			.find(".ZuiXinJia").html(formatNumber(d.ZuiXinJia)).addClass(d.ZhangFu>0?"red":"green").end()
+			.find(".ZhangFu").html(formatNumber(d.ZhangFu,null,null,"%")).addClass(d.ZhangFu>0?"red":"green").end()
+			.find(".ZhenFu").html(formatNumber(d.ZhenFu,null,null,"%")).addClass(d.ZhangFu>0?"red":"green").end();
 		}
 	}
 

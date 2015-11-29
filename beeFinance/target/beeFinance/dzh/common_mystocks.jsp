@@ -140,17 +140,10 @@ function valMyStockDynaData(d) {
 		
 		// 如果最新价是NaN，做停牌处理
 		var flag = isTingPai(d.ZuiXinJia, d.WeiTuoMaiRuJia1, d.WeiTuoMaiChuJia1);
-		if (!flag) {
-			mystock_stk.find(".ZuiXinJia").html(d.ZuiXinJia).addClass(d.ZhangFu>0?"red":"green").end()
-			.find(".ZhangFu").html(d.ZhangFu+"%").addClass(d.ZhangFu>0?"red":"green").end()
-			.find(".ZhenFu").html(d.ZhenFu+"%").end()
-			;
-		} else {
-			mystock_stk.find(".ZuiXinJia").html("停牌").end()
-			.find(".ZhangFu").html("-").end()
-			.find(".ZhenFu").html("-").end()
-			;
-		}
+		mystock_stk.find(".ZuiXinJia").html(flag ? "停牌" : formatNumber(d.ZuiXinJia)).addClass(d.ZhangFu>0?"red":"green").end()
+		.find(".ZhangFu").html(formatNumber(d.ZhangFu,null,null,"%")).addClass(d.ZhangFu>0?"red":"green").end()
+		.find(".ZhenFu").html(formatNumber(d.ZhenFu,null,null,"%")).end()
+		;
 	}
 }
 </script>

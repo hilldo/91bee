@@ -66,10 +66,10 @@
 	    	function valDynaData(d) {
 	    		var t = $("#"+d.Obj);
 	    		t.find("h3").html(d.ZhongWenJianCheng).end()
-	    		.find(".ZuiXinJia").html(d.ZuiXinJia).addClass(d.ZhangFu>0?"red":"green").end()
-	    		.find(".ZhangDie").html(d.ZhangDie).end()
-	    		.find(".ZhangFu").html(d.ZhangFu+"%").end()
-	    		.find(".ChengJiaoE").html(Math.round((d.ChengJiaoE/100000000)*100)/100+"亿元").end()
+	    		.find(".ZuiXinJia").html(formatNumber(d.ZuiXinJia)).addClass(d.ZhangFu>0?"red":"green").end()
+	    		.find(".ZhangDie").html(formatNumber(d.ZhangDie)).end()
+	    		.find(".ZhangFu").html(formatNumber(d.ZhangFu,null,null,"%")).end()
+	    		.find(".ChengJiaoE").html(formatNumber(d.ChengJiaoE,null,"Y","亿元")).end()
 //	    		.find(".ShangZhangJiaShu").html(d.AGuShangZhangJiaShu).end()
 //	    		.find(".PingPanJiaShu").html(d.AGuPingPanJiaShu).end()
 //	    		.find(".XiaDieJiaShu").html(d.AGuXiaDieJiaShu).end()

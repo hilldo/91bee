@@ -143,22 +143,13 @@
 				
 				// 如果最新价是NaN，做停牌处理
 				var flag = isTingPai(d.ZuiXinJia, d.WeiTuoMaiRuJia1, d.WeiTuoMaiChuJia1);
-				if (!flag) {
-					mystock_stk.find(".ZuiXinJia").html(d.ZuiXinJia).addClass(d.ZhangFu>0?"red":"green").end()
-					.find(".ZhangDie").html(d.ZhangDie).addClass(d.ZhangFu>0?"red":"green").end()
-					.find(".ZhangFu").html(d.ZhangFu+"%").addClass(d.ZhangFu>0?"red":"green").end()
-					.find(".ZuoShou").html(d.ZuoShou).end().find(".KaiPanJia").html(d.KaiPanJia).end()
-					.find(".ZuiGaoJia").html(d.ZuiGaoJia).end().find(".ZuiDiJia").html(d.ZuiDiJia).end()
-					.find(".ChengJiaoLiang").html(d.ChengJiaoLiang).end().find(".HuanShou").html(d.HuanShou).end()
-					;
-				} else {
-					mystock_stk.find(".ZuiXinJia").html("停牌").end()
-					.find(".ZhangDie").html("-").end().find(".ZhangFu").html("-").end()
-					.find(".ZuoShou").html("-").end().find(".KaiPanJia").html("-").end()
-					.find(".ZuiGaoJia").html("-").end().find(".ZuiDiJia").html("-").end()
-					.find(".ChengJiaoLiang").html("-").end().find(".HuanShou").html("-").end()
-					;
-				}
+				mystock_stk.find(".ZuiXinJia").html(flag ? "停牌" : formatNumber(d.ZuiXinJia)).addClass(d.ZhangFu>0?"red":"green").end()
+				.find(".ZhangDie").html(formatNumber(d.ZhangDie)).addClass(d.ZhangFu>0?"red":"green").end()
+				.find(".ZhangFu").html(formatNumber(d.ZhangFu,null,null,"%")).addClass(d.ZhangFu>0?"red":"green").end()
+				.find(".ZuoShou").html(formatNumber(d.ZuoShou)).end().find(".KaiPanJia").html(formatNumber(d.KaiPanJia)).end()
+				.find(".ZuiGaoJia").html(formatNumber(d.ZuiGaoJia)).end().find(".ZuiDiJia").html(formatNumber(d.ZuiDiJia)).end()
+				.find(".ChengJiaoLiang").html(formatNumber(d.ChengJiaoLiang,0)).end().find(".HuanShou").html(formatNumber(d.HuanShou)).end()
+				;
 			}
 		}
 		

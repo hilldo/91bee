@@ -85,7 +85,7 @@ $(function(){
 		function valDynaData(d) {
 			var li = $("li.bk_"+d.Obj.substr(2));	
 			li.find("div.ZhongWenJianCheng").html(d.ZhongWenJianCheng).end()
-			.find("div.ZhangFu").html(d.ZhangFu+"%").addClass(d.ZhangFu>0?"red":"green").end()
+			.find("div.ZhangFu").html(formatNumber(d.ZhangFu,null,null,"%")).addClass(d.ZhangFu>0?"red":"green").end()
 			;
 		}
 	}

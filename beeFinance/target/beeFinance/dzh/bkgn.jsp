@@ -98,11 +98,11 @@
     		function valDynaData(d) {
     			var tr = $("tr.bk_"+d.Obj.substr(2));	
     			tr.find("td.ZhongWenJianCheng").html(d.ZhongWenJianCheng).end()
-    			.find("td.ZhangFu").html(d.ZhangFu+"%").addClass(d.ZhangFu>0?"red":"green").end()
-    			.find("td.ChengJiaoE").html((d.ChengJiaoE/100000000).toFixed(2)).end()
-    			.find("td.ZuiXinJia").html(d.ZuiXinJia).addClass(d.ZhangFu>0?"red":"green").end()
-    			.find("td.ZuoShou").html(d.ZuoShou).end()
-    			.find("td.KaiPanJia").html(d.KaiPanJia).end()
+    			.find("td.ZhangFu").html(formatNumber(d.ZhangFu,null,null,"%")).addClass(d.ZhangFu>0?"red":"green").end()
+    			.find("td.ChengJiaoE").html(formatNumber(d.ChengJiaoE,null,"Y")).end()
+    			.find("td.ZuiXinJia").html(formatNumber(d.ZuiXinJia)).addClass(d.ZhangFu>0?"red":"green").end()
+    			.find("td.ZuoShou").html(formatNumber(d.ZuoShou)).end()
+    			.find("td.KaiPanJia").html(formatNumber(d.KaiPanJia)).end()
     			;
     		}
     	}

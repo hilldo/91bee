@@ -43,7 +43,6 @@ $(function(){
 	// 3、动态行情
 	$("div.sk-board").attr("id", "board_"+currCode);
 	var dynaDataStore = new DataStore({
-		//dataType: "json",
         serviceUrl: "/stkdata"
     });
 	
@@ -78,64 +77,34 @@ $(function(){
 		if (board_stk.length>0) {
 			// 如果最新价是NaN，做停牌处理 
 			var flag = isTingPai(d.ZuiXinJia, d.WeiTuoMaiRuJia1, d.WeiTuoMaiChuJia1);
-			if (!flag) {
-				board_stk.find("span.sk-board-stockname").html(d.ZhongWenJianCheng).end()
-				.find("span.sk-board-stockcode").html(currCode).end().find(".realprice").html(d.ZuiXinJia ? d.ZuiXinJia : "停牌").addClass(d.ZhangFu>0?"red":"green").end()
-				.find("p.changeAmt").html(d.ZhangDie).addClass(d.ZhangFu>0?"red":"green").end()
-				.find("p.changeRate").html(d.ZhangFu+"%").addClass(d.ZhangFu>0?"red":"green").end()
-				.find("em.KaiPanJia").html(d.KaiPanJia).end().find("em.ZuiGaoJia").html(d.ZuiGaoJia).end()
-				.find("em.HuanShou").html(d.HuanShou+"%").end().find("em.ChengJiaoLiang").html((d.ChengJiaoLiang/1000000).toFixed(2)+"万手").end()
-				.find("em.ZuoShou").html(d.ZuoShou).end().find("em.ZuiDiJia").html(d.ZuiDiJia).end()
-				.find("em.LiangBi").html(d.LiangBi).end().find("em.ChengJiaoE").html((d.ChengJiaoE/10000).toFixed(0)+"万").end()
-				.find("em.ZhangTing").html(d.ZhangTing).end().find("em.DieTing").html(d.DieTing).end()
-				.find("em.ShiYingLv").html((d.ShiYingLv).toFixed(2)).end().find("em.ShiJingLv").html((d.ShiJingLv).toFixed(2)).end()
-				.find("em.ZongShiZhi").html((d.ZongShiZhi/10000).toFixed(2)+"亿").end().find("em.LiuTongShiZhi").html((d.LiuTongShiZhi/10000).toFixed(2)+"亿").end()
+			board_stk.find("span.sk-board-stockname").html(d.ZhongWenJianCheng).end()
+			.find("span.sk-board-stockcode").html(currCode).end().find(".realprice").html(flag ? "停牌" : formatNumber(d.ZuiXinJia)).addClass(d.ZhangFu>0?"red":"green").end()
+			.find("p.changeAmt").html(formatNumber(d.ZhangDie)).addClass(d.ZhangFu>0?"red":"green").end()
+			.find("p.changeRate").html(formatNumber(d.ZhangFu,null,null,"%")).addClass(d.ZhangFu>0?"red":"green").end()
+			.find("em.KaiPanJia").html(formatNumber(d.KaiPanJia)).end().find("em.ZuiGaoJia").html(formatNumber(d.ZuiGaoJia)).end()
+			.find("em.HuanShou").html(formatNumber(d.HuanShou,null,null,"%")).end().find("em.ChengJiaoLiang").html(formatNumber(d.ChengJiaoLiang,null,"M","万手")).end()
+			.find("em.ZuoShou").html(formatNumber(d.ZuoShou)).end().find("em.ZuiDiJia").html(formatNumber(d.ZuiDiJia)).end()
+			.find("em.LiangBi").html(formatNumber(d.LiangBi)).end().find("em.ChengJiaoE").html(formatNumber(d.ChengJiaoE,null,"W","万")).end()
+			.find("em.ZhangTing").html(formatNumber(d.ZhangTing)).end().find("em.DieTing").html(formatNumber(d.DieTing)).end()
+			.find("em.ShiYingLv").html(formatNumber(d.ShiYingLv)).end().find("em.ShiJingLv").html(formatNumber(d.ShiJingLv)).end()
+			.find("em.ZongShiZhi").html(formatNumber(d.ZongShiZhi,null,"W","亿")).end().find("em.LiuTongShiZhi").html(formatNumber(d.LiuTongShiZhi,null,"W","亿")).end()
+			;
+			
+			//处理五档盘口
+			if (wudangpankou.length>0) {
+				wudangpankou.find("span.WeiBi").html(formatNumber(d.WeiBi)).end().find("span.WeiCha").html(formatNumber(d.WeiCha)).end()
+				.find("span.WeiTuoMaiChuJia5").html(formatNumber(d.WeiTuoMaiChuJia5)).end().find("span.WeiTuoMaiChuLiang5").html(formatNumber(d.WeiTuoMaiChuLiang5,0,100)).end()
+				.find("span.WeiTuoMaiChuJia4").html(formatNumber(d.WeiTuoMaiChuJia4)).end().find("span.WeiTuoMaiChuLiang4").html(formatNumber(d.WeiTuoMaiChuLiang4,0,100)).end()
+				.find("span.WeiTuoMaiChuJia3").html(formatNumber(d.WeiTuoMaiChuJia3)).end().find("span.WeiTuoMaiChuLiang3").html(formatNumber(d.WeiTuoMaiChuLiang3,0,100)).end()
+				.find("span.WeiTuoMaiChuJia2").html(formatNumber(d.WeiTuoMaiChuJia2)).end().find("span.WeiTuoMaiChuLiang2").html(formatNumber(d.WeiTuoMaiChuLiang2,0,100)).end()
+				.find("span.WeiTuoMaiChuJia1").html(formatNumber(d.WeiTuoMaiChuJia1)).end().find("span.WeiTuoMaiChuLiang1").html(formatNumber(d.WeiTuoMaiChuLiang1,0,100)).end()
+				.find("b.ZuiXinJia").html(formatNumber(d.ZuiXinJia)).end()
+				.find("span.WeiTuoMaiRuJia1").html(formatNumber(d.WeiTuoMaiRuJia1)).end().find("span.WeiTuoMaiRuLiang1").html(formatNumber(d.WeiTuoMaiRuLiang1,0,100)).end()
+				.find("span.WeiTuoMaiRuJia2").html(formatNumber(d.WeiTuoMaiRuJia2)).end().find("span.WeiTuoMaiRuLiang2").html(formatNumber(d.WeiTuoMaiRuLiang2,0,100)).end()
+				.find("span.WeiTuoMaiRuJia3").html(formatNumber(d.WeiTuoMaiRuJia3)).end().find("span.WeiTuoMaiRuLiang3").html(formatNumber(d.WeiTuoMaiRuLiang3,0,100)).end()
+				.find("span.WeiTuoMaiRuJia4").html(formatNumber(d.WeiTuoMaiRuJia4)).end().find("span.WeiTuoMaiRuLiang4").html(formatNumber(d.WeiTuoMaiRuLiang4,0,100)).end()
+				.find("span.WeiTuoMaiRuJia5").html(formatNumber(d.WeiTuoMaiRuJia5)).end().find("span.WeiTuoMaiRuLiang5").html(formatNumber(d.WeiTuoMaiRuLiang5,0,100)).end()
 				;
-				
-				//处理五档盘口
-				if (wudangpankou.length>0) {
-					wudangpankou.find("span.WeiBi").html(d.WeiBi).end().find("span.WeiCha").html(d.WeiCha).end()
-					.find("span.WeiTuoMaiChuJia5").html(d.WeiTuoMaiChuJia5).end().find("span.WeiTuoMaiChuLiang5").html(d.WeiTuoMaiChuLiang5/100).end()
-					.find("span.WeiTuoMaiChuJia4").html(d.WeiTuoMaiChuJia4).end().find("span.WeiTuoMaiChuLiang4").html(d.WeiTuoMaiChuLiang4/100).end()
-					.find("span.WeiTuoMaiChuJia3").html(d.WeiTuoMaiChuJia3).end().find("span.WeiTuoMaiChuLiang3").html(d.WeiTuoMaiChuLiang3/100).end()
-					.find("span.WeiTuoMaiChuJia2").html(d.WeiTuoMaiChuJia2).end().find("span.WeiTuoMaiChuLiang2").html(d.WeiTuoMaiChuLiang2/100).end()
-					.find("span.WeiTuoMaiChuJia1").html(d.WeiTuoMaiChuJia1).end().find("span.WeiTuoMaiChuLiang1").html(d.WeiTuoMaiChuLiang1/100).end()
-					.find("b.ZuiXinJia").html(d.ZuiXinJia).end()
-					.find("span.WeiTuoMaiRuJia1").html(d.WeiTuoMaiRuJia1).end().find("span.WeiTuoMaiRuLiang1").html(d.WeiTuoMaiRuLiang1/100).end()
-					.find("span.WeiTuoMaiRuJia2").html(d.WeiTuoMaiRuJia2).end().find("span.WeiTuoMaiRuLiang2").html(d.WeiTuoMaiRuLiang2/100).end()
-					.find("span.WeiTuoMaiRuJia3").html(d.WeiTuoMaiRuJia3).end().find("span.WeiTuoMaiRuLiang3").html(d.WeiTuoMaiRuLiang3/100).end()
-					.find("span.WeiTuoMaiRuJia4").html(d.WeiTuoMaiRuJia4).end().find("span.WeiTuoMaiRuLiang4").html(d.WeiTuoMaiRuLiang4/100).end()
-					.find("span.WeiTuoMaiRuJia5").html(d.WeiTuoMaiRuJia5).end().find("span.WeiTuoMaiRuLiang5").html(d.WeiTuoMaiRuLiang5/100).end()
-					;
-				}
-			} else {
-				board_stk.find("span.sk-board-stockname").html(d.ZhongWenJianCheng).end()
-				.find("span.sk-board-stockcode").html(currCode).end().find(".realprice").html("停牌").end()
-				.find("p.changeAmt").html("-").end().find("p.changeRate").html("-").end()
-				.find("em.KaiPanJia").html("-").end().find("em.ZuiGaoJia").html("-").end()
-				.find("em.HuanShou").html("-").end().find("em.ChengJiaoLiang").html("-").end()
-				.find("em.ZuoShou").html("-").end().find("em.ZuiDiJia").html("-").end()
-				.find("em.LiangBi").html("-").end().find("em.ChengJiaoE").html("-").end()
-				.find("em.ZhangTing").html("-").end().find("em.DieTing").html("-").end()
-				.find("em.ShiYingLv").html("-").end().find("em.ShiJingLv").html("-").end()
-				.find("em.ZongShiZhi").html("-").end().find("em.LiuTongShiZhi").html("-").end()
-				;
-				//处理五档盘口
-				if (wudangpankou.length>0) {
-					wudangpankou.find("span.WeiBi").html("-").end().find("span.WeiCha").html("-").end()
-					.find("span.WeiTuoMaiChuJia5").html("-").end().find("span.WeiTuoMaiChuLiang5").html("-").end()
-					.find("span.WeiTuoMaiChuJia4").html("-").end().find("span.WeiTuoMaiChuLiang4").html("-").end()
-					.find("span.WeiTuoMaiChuJia3").html("-").end().find("span.WeiTuoMaiChuLiang3").html("-").end()
-					.find("span.WeiTuoMaiChuJia2").html("-").end().find("span.WeiTuoMaiChuLiang2").html("-").end()
-					.find("span.WeiTuoMaiChuJia1").html("-").end().find("span.WeiTuoMaiChuLiang1").html("-").end()
-					.find("b.ZuiXinJia").html("-").end()
-					.find("span.WeiTuoMaiRuJia1").html("-").end().find("span.WeiTuoMaiRuLiang1").html("-").end()
-					.find("span.WeiTuoMaiRuJia2").html("-").end().find("span.WeiTuoMaiRuLiang2").html("-").end()
-					.find("span.WeiTuoMaiRuJia3").html("-").end().find("span.WeiTuoMaiRuLiang3").html("-").end()
-					.find("span.WeiTuoMaiRuJia4").html("-").end().find("span.WeiTuoMaiRuLiang4").html("-").end()
-					.find("span.WeiTuoMaiRuJia5").html("-").end().find("span.WeiTuoMaiRuLiang5").html("-").end()
-					;
-				}
 			}
 		}
 	}
